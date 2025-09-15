@@ -2,12 +2,10 @@
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import { aboutPageContent } from "../config";
-import ResumeItem from "../components/ResumeItem.astro";
 import SocialLinkBox from "../components/SocialLinkBox.astro";
 import {marked} from "marked"
 
 const pageDescription = marked.parse(aboutPageContent.about.description)
-const workDescription = marked.parse(aboutPageContent.work.description)
 const connectDescription = marked.parse(aboutPageContent.connect.description)
 ---
 
@@ -19,31 +17,44 @@ const connectDescription = marked.parse(aboutPageContent.connect.description)
       <Fragment set:html={pageDescription} />
     </div>
     <div class="flex flex-col min-[410px]:flex-row">
-      <Image
-        src={aboutPageContent.about.image_l.url}
-        alt={aboutPageContent.about.image_l.alt}
-        width={350}
-        height={250}
-        class="w-[350px] h-[250px] object-cover rounded-xl -rotate-6"
-      />
-      <Image
-        src={aboutPageContent.about.image_r.url}
-        alt={aboutPageContent.about.image_r.alt}
-        width={150}
-        height={250}
-        class="w-[150px] h-[250px] object-cover rounded-xl rotate-6 mx-auto sm:ml-auto"
-      />
-    </div>
-  </section>
-  <section class="my-20 mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">
-    <h2 class="mb-8 sm:mb-0 opacity-60">Work</h2>
-    <div>
-      <div class="mb-6">
-        <Fragment set:html={workDescription} />
-      </div>
-      <div class="grid grid-cols-1 group">
-        {aboutPageContent.work.items.map((item) => <ResumeItem {...item} />)}
-      </div>
+      {aboutPageContent.about.image_l.link ? (
+        <a href={aboutPageContent.about.image_l.link} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform">
+          <Image
+            src={aboutPageContent.about.image_l.url}
+            alt={aboutPageContent.about.image_l.alt}
+            width={350}
+            height={250}
+            class="w-[350px] h-[250px] object-cover rounded-xl -rotate-6"
+          />
+        </a>
+      ) : (
+        <Image
+          src={aboutPageContent.about.image_l.url}
+          alt={aboutPageContent.about.image_l.alt}
+          width={350}
+          height={250}
+          class="w-[350px] h-[250px] object-cover rounded-xl -rotate-6"
+        />
+      )}
+      {aboutPageContent.about.image_r.link ? (
+        <a href={aboutPageContent.about.image_r.link} target="_blank" rel="noopener noreferrer" class="hover:scale-105 transition-transform mx-auto sm:ml-auto">
+          <Image
+            src={aboutPageContent.about.image_r.url}
+            alt={aboutPageContent.about.image_r.alt}
+            width={150}
+            height={250}
+            class="w-[150px] h-[250px] object-cover rounded-xl rotate-6"
+          />
+        </a>
+      ) : (
+        <Image
+          src={aboutPageContent.about.image_r.url}
+          alt={aboutPageContent.about.image_r.alt}
+          width={150}
+          height={250}
+          class="w-[150px] h-[250px] object-cover rounded-xl rotate-6 mx-auto sm:ml-auto"
+        />
+      )}
     </div>
   </section>
   <section class="mt-32 max-w-2xl mx-auto px-6 sm:flex sm:gap-16">

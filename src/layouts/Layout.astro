@@ -64,16 +64,7 @@ const { seo } = Astro.props;
       <div
         class="px-6 py-6 max-w-2xl mx-auto flex items-center justify-between"
       >
-        <a href="/">
-          <Image
-            src={identity.logo}
-            alt={"Logo"}
-            width={50}
-            height={50}
-            class="w-[50px] h-[50px] object-cover"
-          />
-        </a>
-        <nav class="ml-auto mr-6 sm:m-0">
+        <nav class="ml-auto mr-0 sm:mr-4">
           <ul class="hidden sm:flex sm:items-center sm:gap-2">
             {
               navBarLinks.map((link) => (
@@ -117,15 +108,6 @@ const { seo } = Astro.props;
             </div>
           </div>
         </nav>
-        <div>
-          <a
-            href=`mailto:${identity.email}`
-            class="block p-2 opacity-60 hover:opacity-100 transition-opacity"
-            aria-label="Email"
-          >
-            <Icon name="mdi:email" width={20} height={20} />
-          </a>
-        </div>
       </div>
     </header>
     <main class="mb-32">
@@ -171,5 +153,17 @@ const { seo } = Astro.props;
 
   .post:hover .hover-underline {
     text-decoration-color: rgba(255, 255, 255, 1);
+  }
+
+  /* Style for markdown links in content areas only */
+  .mb-14 a, .mb-6 a {
+    color: #60a5fa;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 200ms ease;
+  }
+
+  .mb-14 a:hover, .mb-6 a:hover {
+    color: #93c5fd;
   }
 </style>

@@ -43,6 +43,7 @@ export type ResumeItem = {
     url: string;
   };
   date: string;
+  description?: string;
 };
 
 export type AboutPageContent = {
@@ -53,15 +54,13 @@ export type AboutPageContent = {
     image_l: {
       url: string;
       alt: string;
+      link?: string;
     };
     image_r: {
       url: string;
       alt: string;
+      link?: string;
     };
-  };
-  work: {
-    description: string;
-    items: ResumeItem[];
   };
   connect: {
     description: string;
@@ -75,12 +74,20 @@ export type Project = {
   image: string;
   year: string;
   url: string;
+  demoUrl?: string;
 };
 
 export type ProjectPageContent = {
   seo: SEOInfo;
   subtitle: string;
   projects: Project[];
+};
+
+export type WorkPageContent = {
+  seo: SEOInfo;
+  subtitle: string;
+  description: string;
+  items: ResumeItem[];
 };
 
 export type BlogPageContent = {

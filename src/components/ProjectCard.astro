@@ -5,17 +5,17 @@ import {marked} from "marked"
 
 type Props = Project;
 
-const { title, description, image, year, url } = Astro.props;
+const { title, description, image, year, url, demoUrl } = Astro.props;
 
 const htmlDescription = marked.parse(description)
 ---
 
-<a
-  href={url}
-  target="_blank"
-  class="sm:py-5 py-10 flex flex-col sm:flex-row gap-6 group-hover:opacity-60 hover:!opacity-100 transition-opacity"
->
-  <div class="h-full bg-gray-700 rounded-lg aspect-video sm:h-[150px]">
+<div class="sm:py-5 py-10 flex flex-col sm:flex-row gap-6 group-hover:opacity-60 hover:!opacity-100 transition-opacity">
+  <a
+    href={url}
+    target="_blank"
+    class="h-full bg-gray-700 rounded-lg aspect-video sm:h-[150px] block"
+  >
     <Image
       width={1920}
       height={1080}
@@ -23,14 +23,28 @@ const htmlDescription = marked.parse(description)
       alt={title}
       class="w-full h-full object-cover rounded-lg aspect-video"
     />
-  </div>
-  <div>
+  </a>
+  <div class="flex-1">
     <div class="flex items-center gap-1 mb-2">
-      <h2 class="font-medium">{title}</h2>
+      <a href={url} target="_blank" class="hover:underline">
+        <h2 class="font-medium">{title}</h2>
+      </a>
       <span class="opacity-60">· {year}</span>
     </div>
     <div class="opacity-60">
       <Fragment set:html={htmlDescription} />
+      {demoUrl && (
+        <span>
+          {" "}
+          <a
+            href={demoUrl}
+            target="_blank"
+            class="text-blue-400 hover:text-blue-300 underline"
+          >
+See demo
+          </a>
+        </span>
+      )}
     </div>
   </div>
-</a>
+</div>

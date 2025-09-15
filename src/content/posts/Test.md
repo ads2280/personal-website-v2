@@ -1,7 +1,7 @@
 ---
-title: "My First Blog Post with a very long name"
-pubDate: 2022-07-01 #Y-M-D
-description: "Test"
-author: "Tim"
+title: "Have Keyboard, Will Program"
+pubDate: 2023-09-14 #Y-M-D
+description: "I just learnt about r/mechanicalkeyboards"
+author: "Anika Somaia"
 image: { url: "/logo.webp", alt: "Test" }
 ---
