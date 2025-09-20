@@ -5,7 +5,8 @@ import { getCollection } from "astro:content";
 import { blogPageContent } from "../../config";
 import { render } from "astro:content";
 
-const posts = await getCollection("posts");
+let posts = await getCollection("posts");
+posts = posts.filter((p) => !p.data?.draft);
 posts.sort((a, b) => {
   const dateA = new Date(a.data.pubDate).getTime();
   const dateB = new Date(b.data.pubDate).getTime();
