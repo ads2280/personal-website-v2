@@ -181,7 +181,7 @@ export const workPageContent: WorkPageContent = {
         url: "https://www.langchain.com/langsmith",
       },
       date: "Jun 2025 - Present",
-      description: "Observability and evals. **Learn more →**",
+      description: "Observability and evals. Learn more →",
     },
     {
       title: "Research Assistant - ARISE Lab",
