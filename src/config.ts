@@ -64,7 +64,7 @@ export const homePageContent: HomePageContent = {
   seo: {
     title: "Anika Somaia",
     description:
-      "Full time student from Germany who loves building cool things using code.",
+      "Columbia student interested in ML, math and building.",
     image: identity.logo,
   },
   role: "Student, researcher, occasionally writes code that works",
@@ -139,14 +139,7 @@ export const projectsPageContent: ProjectPageContent = {
       url: "https://dropbox.com/scl/fi/7w8dt2uq9rjto7h32iq0w/ActivityRecorderProject.zip?rlkey=e8rpa2z23limxn09kg51mj0a7&st=r2g4fu02&dl=0",
       demoUrl: "https://www.dropbox.com/scl/fi/d7skn5sj7i1gfwa8yex27/ActivityRecorder-Demo.mp4?rlkey=4bezm8kkyc1sji8prb8ws5tnw&e=1&st=l4gjm56v&dl=0",
     },
-    {
-      title: "Automated Prompt Optimization",
-      description: "Built an extension to promptimizer that optimizes prompts for AI apps across different task types. Achieves ~200% improvements in accuracy when applied to binary classification and open-ended text generation tasks. Includes extensive work on prompt engineering techniques.",
-      image: "/project1.jpg",
-      year: "2024",
-      url: "https://www.dropbox.com/scl/fi/qghnu8feqlt59iojtfm44/prompt_optimizer.zip?rlkey=45w2iimnrfgpsar7jc330byv6&e=1&st=mjgpvwdu&dl=0",
-    },
-    {
+   {
       title: "LLM Evaluation Uncertainty",
       description: "Conformal prediction for LLM-as-judge systems to quantify evaluation uncertainty. Includes LLM-as-judge evaluation using Sonnet 4, multiple conformal prediction strategies, and interactive visualization for uncertainty quantification.",
       image: "/project3.jpg",
@@ -160,7 +153,14 @@ export const projectsPageContent: ProjectPageContent = {
       year: "2025",
       url: "https://hotnets25.hotcrp.com/doc/hotnets25-paper142.pdf?cap=hcav142dbJcQUYfioxkLUtMxBWhEDhC",
     },
-  ],
+    {
+      title: "Automated Prompt Optimization",
+      description: "Built an extension to promptimizer that optimizes prompts for AI apps across different task types. Achieves ~200% improvements in accuracy when applied to binary classification and open-ended text generation tasks. Includes extensive work on prompt engineering techniques.",
+      image: "/project1.jpg",
+      year: "2024",
+      url: "https://www.dropbox.com/scl/fi/qghnu8feqlt59iojtfm44/prompt_optimizer.zip?rlkey=45w2iimnrfgpsar7jc330byv6&e=1&st=mjgpvwdu&dl=0",
+    },
+ ],
 };
 
 // Work (/work)
@@ -181,7 +181,7 @@ export const workPageContent: WorkPageContent = {
         url: "https://langchain.com",
       },
       date: "Jun 2025 - Present",
-      description: "Building ML evaluation and traceability features for AI agents, including automated prompt optimization and privacy-preserving algorithms for agentic search over conversation histories.",
+      description: "Observability and evals. [Learn more →](https://www.langchain.com/langsmith)",
     },
     {
       title: "Research Assistant - ARISE Lab",
