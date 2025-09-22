@@ -178,10 +178,10 @@ export const workPageContent: WorkPageContent = {
       company: {
         name: "LangChain",
         image: "/langchain.webp",
-        url: "https://langchain.com",
+        url: "https://www.langchain.com/langsmith",
       },
       date: "Jun 2025 - Present",
-      description: "Observability and evals. [Learn more →](https://www.langchain.com/langsmith)",
+      description: "Observability and evals. **Learn more →**",
     },
     {
       title: "Research Assistant - ARISE Lab",
