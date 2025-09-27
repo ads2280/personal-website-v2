@@ -153,14 +153,7 @@ export const projectsPageContent: ProjectPageContent = {
       year: "2025",
       url: "https://hotnets25.hotcrp.com/doc/hotnets25-paper142.pdf?cap=hcav142dbJcQUYfioxkLUtMxBWhEDhC",
     },
-    {
-      title: "Automated Prompt Optimization",
-      description: "Built an extension to promptimizer that optimizes prompts for AI apps across different task types. Achieves ~200% improvements in accuracy when applied to binary classification and open-ended text generation tasks. Includes extensive work on prompt engineering techniques.",
-      image: "/project1.jpg",
-      year: "2024",
-      url: "https://www.dropbox.com/scl/fi/qghnu8feqlt59iojtfm44/prompt_optimizer.zip?rlkey=45w2iimnrfgpsar7jc330byv6&e=1&st=mjgpvwdu&dl=0",
-    },
- ],
+  ],
 };
 
 // Work (/work)
