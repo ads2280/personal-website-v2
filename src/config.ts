@@ -98,11 +98,15 @@ I'm Anika Somaia, a software engineer intern at LangChain working on AI observab
 
 &nbsp;
 
-I'm currently on leave from Columbia University, where I study Computer Science and Math, serve as research lead at Columbia's AI Alignment Club, and play lots of tennis.
+I'm currently on leave from Columbia University, where I study Computer Science and Math, serve as research lead at Columbia's AI Alignment Club, and play tennis. 
 
 &nbsp;
 
-[Learn more →](/work) 
+I also enjoy pretty much anything outdoors (especially snowboarding and kitesurfing) and traveling to new places.
+
+&nbsp;
+
+<a href="/work" style="font-weight: bold; text-decoration: none; color: inherit;">Learn more →</a> 
 `
 , // Markdown is supported
     image_l: {
@@ -117,7 +121,7 @@ I'm currently on leave from Columbia University, where I study Computer Science 
     },
   },
   connect: {
-    description: `You can reach out to me at [anika.somaia@columbia.edu](mailto:anika.somaia@columbia.edu).`, // Markdown is supported
+    description: `You can reach out to me at <a href="mailto:anika.somaia@columbia.edu" style="font-weight: bold; text-decoration: none; color: inherit;">anika.somaia@columbia.edu</a>.`, // Markdown is supported
     links: [],
   },
 };
@@ -132,8 +136,8 @@ export const projectsPageContent: ProjectPageContent = {
   subtitle: "Check out what I've been working on.",
   projects: [
     {
-      title: "Passive Logging for Computer-Use Modeling",
-      description: "Built a non-invasive app to collect behavioral data for computer use models. Explores what counts as ground truth in computer use data and how models reason about user intent.",
+      title: "Local Activity Recorder for Computer-Use Modeling",
+      description: "A lightweight recorder that logs everyday computer use (keyboard, screen, mouse events) as structured traces for computer-use agent development.",
       image: "/project2.jpg",
       year: "2024",
       url: "https://dropbox.com/scl/fi/7w8dt2uq9rjto7h32iq0w/ActivityRecorderProject.zip?rlkey=e8rpa2z23limxn09kg51mj0a7&st=r2g4fu02&dl=0",
@@ -148,7 +152,7 @@ export const projectsPageContent: ProjectPageContent = {
     },
     {
       title: "Lightweight eBPF Runtime for SmallSat Operations",
-      description: "Research on novel runtime systems for multi-tenant satellite operations. Addresses the challenges of managing hundreds of commodity SmallSats with varying hardware capabilities under intermittent communication, focusing on isolation and security in constrained space environments.",
+      description: "Research on novel runtime systems for multi-tenant satellite operations using eBPF. Addresses the challenges of managing hundreds of commodity SmallSats under intermittent communication. Published at ACM HotNets '25.",
       image: "/project4.jpg",
       year: "2025",
       url: "https://hotnets25.hotcrp.com/doc/hotnets25-paper142.pdf?cap=hcav142dbJcQUYfioxkLUtMxBWhEDhC",

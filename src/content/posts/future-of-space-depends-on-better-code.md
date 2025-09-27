@@ -67,3 +67,4 @@ The next time you use GPS, stream satellite internet, or see a real-time weather
 ---
 
 *This research was conducted as part of ongoing work on satellite computing systems. The full technical details are available in our paper ["Above the Clouds: New Software Challenges in Space Computing"](https://hotnets25.hotcrp.com/doc/hotnets25-paper142.pdf?cap=hcav142dbJcQUYfioxkLUtMxBWhEDhC)*
+
