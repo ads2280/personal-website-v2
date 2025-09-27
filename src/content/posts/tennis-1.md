@@ -39,3 +39,7 @@ This explains why tennis matches feel so dramatic. Every crucial point gets magn
 There's also something fascinating about how Wimbledon handles this differently for men and women, adjusting men's seedings based on grass court performance while using standard rankings for women. It suggests that even the tournament organizers recognize the mathematical complexity lurking beneath what looks like a simple sport.
 
 Now when I'm down 0-40 on my serve, instead of panicking I actually get curious about whether I can dig out of what the math says is an 87% probability of losing the game.
+
+---
+
+*For my full derivations, calculations, and proofs, see: ["Winning probabilities and the tennis scoring system"](https://docs.google.com/document/d/e/2PACX-1vSIoGvWSjqmb_5Co7FAUvyYpalDAU8cdUmg1ie6VhD8BOtnZ8ro-R9TiXgVNf7iq2-G4FmXmUczZ5wo/pub).*
