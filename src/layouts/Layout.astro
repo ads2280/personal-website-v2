@@ -16,6 +16,7 @@ const fullImageURL = seo.image?.startsWith("http")
 ---
 
 <script>
+  // Mobile menu toggle
   const linkMenuButton = document.getElementById(
     "link-menu-button"
   ) as HTMLButtonElement;
@@ -48,6 +49,13 @@ const fullImageURL = seo.image?.startsWith("http")
       linkMenu.classList.add("opacity-0");
       openIndicator.innerText = "+";
     }
+  });
+
+  // Theme toggle
+  const themeToggle = document.getElementById("theme-toggle") as HTMLButtonElement;
+  themeToggle.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 </script>
 
@@ -94,19 +102,34 @@ const fullImageURL = seo.image?.startsWith("http")
         "url": Astro.site
       }
     })} />
+
+    <!-- Theme initialization (prevents flash) -->
+    <script is:inline>
+      const theme = localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+      document.documentElement.classList.toggle("dark", theme === "dark");
+    </script>
   </head>
-  <body>
+  <body class="bg-white dark:bg-black text-black dark:text-white transition-colors">
     <header>
       <div
         class="px-6 py-6 max-w-2xl mx-auto flex items-center justify-between"
       >
+        <button
+          id="theme-toggle"
+          class="p-2 rounded-lg hover:bg-gray-bg-light dark:hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
+          aria-label="Toggle theme"
+        >
+          <Icon name="mdi:weather-sunny" class="w-5 h-5 hidden dark:block" />
+          <Icon name="mdi:weather-night" class="w-5 h-5 block dark:hidden" />
+        </button>
         <nav class="ml-auto mr-0 sm:mr-4">
           <ul class="hidden sm:flex sm:items-center sm:gap-2">
             {
               navBarLinks.map((link) => (
                 <li>
                   <a
-                    class="group px-4 py-2 rounded-lg hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
+                    class="group px-4 py-2 rounded-lg hover:bg-gray-bg-light dark:hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
                     href={link.url}
                     target={link.external ? "_blank" : "_self"}
                   >
@@ -124,7 +147,7 @@ const fullImageURL = seo.image?.startsWith("http")
             >
             <div
               id="link-menu"
-              class="absolute p-2 right-0 bg-gray-bg rounded-lg w-44 transition-opacity ease-in-out duration-300 opacity-0 z-40"
+              class="absolute p-2 right-0 bg-gray-bg-light dark:bg-gray-bg rounded-lg w-44 transition-opacity ease-in-out duration-300 opacity-0 z-40"
             >
               <ul>
                 {
@@ -149,7 +172,7 @@ const fullImageURL = seo.image?.startsWith("http")
     <main class="mb-32">
       <slot />
     </main>
-    <footer class="border-t border-gray-800 mt-16">
+    <footer class="border-t border-gray-200 dark:border-gray-800 mt-16">
       <div class="max-w-2xl mx-auto px-6 py-8">
         <div class="text-center text-sm opacity-60 space-y-2">
           <p>
@@ -168,7 +191,6 @@ const fullImageURL = seo.image?.startsWith("http")
 
   html {
     font-family: "Inter", sans-serif;
-    background: #000000;
   }
 
   * {
@@ -176,7 +198,6 @@ const fullImageURL = seo.image?.startsWith("http")
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
-    color: white;
   }
 
   code {
@@ -198,18 +219,26 @@ const fullImageURL = seo.image?.startsWith("http")
   }
 
   .post:hover .hover-underline {
-    text-decoration-color: rgba(255, 255, 255, 1);
+    text-decoration-color: currentColor;
   }
 
   /* Style for markdown links in content areas only */
   .mb-14 a, .mb-6 a {
-    color: #60a5fa;
+    color: #2563eb;
     text-decoration: underline;
     text-underline-offset: 3px;
     transition: color 200ms ease;
   }
 
   .mb-14 a:hover, .mb-6 a:hover {
+    color: #1d4ed8;
+  }
+
+  .dark .mb-14 a, .dark .mb-6 a {
+    color: #60a5fa;
+  }
+
+  .dark .mb-14 a:hover, .dark .mb-6 a:hover {
     color: #93c5fd;
   }
 </style>
