@@ -4,7 +4,8 @@ pubDate: 2025-03-21
 description: "How breakthrough thinking develops"
 author: "Anika Somaia"
 image: { url: "/artists-scientists.webp", alt: "Performance and science illustration" }
-claudeSummary: "Nobel winners are 22x more likely to do improv, magic, or dance. Anika argues performing builds the mental flexibility that leads to breakthroughs. Einstein had his violin, Feynman his drums—hobbies might be secret weapons."
+claudePrompt: "Claude, what's she talking about?"
+claudeSummary: "Anika's making a fascinating point here: the world's top scientists aren't just lab nerds—they're surprisingly likely to moonlight as actors, dancers, or magicians. Why? She argues it's because performing teaches you to think on your feet, adapt to chaos, and see problems from weird angles. Basically, the same mental flexibility that helps you nail improv comedy might also help you win a Nobel Prize. Einstein played violin, Feynman played drums—turns out hobbies aren't just procrastination, they might be secret weapons for breakthrough thinking."
 ---
 
 There's something puzzling about the world's most celebrated scientists. In his book "Range," David Epstein highlights research showing that Nobel Prize winners are at least 22 times more likely than their peers to be amateur actors, dancers, magicians, or other types of performers.

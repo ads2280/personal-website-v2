@@ -4,7 +4,8 @@ pubDate: 2024-09-14
 description: "How I discovered that the biggest challenge in modern space isn't rocket science—it's software engineering"
 author: "Anika Somaia"
 image: { url: "/project4.jpg", alt: "Satellite constellation in orbit" }
-claudeSummary: "Launches got 60x cheaper but satellite software is stuck in the 90s. Anika's research: use eBPF to run multi-tenant code safely on satellites. Basically Docker for space, with worse WiFi."
+claudePrompt: "Claude, give me the TLDR"
+claudeSummary: "Here's a fun fact: launching stuff to space got 60x cheaper since 1981, but satellite software is still stuck in the stone age. We went from 3 fancy satellites to 4,000+ cheap ones, but operators still manually write command sequences EVERY DAY for EACH satellite. Anika's research uses eBPF (a Linux kernel trick) to let satellites run multiple customers' code safely—like Docker for space. The punchline? Space is becoming cloud computing with worse WiFi and no IT department."
 ---
 
 When most people think about the hard problems in space, they imagine rocket engines, orbital mechanics, or keeping humans alive in the vacuum. But as I dove into satellite computing research, I discovered something surprising: one of the biggest bottlenecks isn't hardware—it's software that's stuck in the 1990s.

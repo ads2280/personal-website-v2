@@ -4,7 +4,8 @@ pubDate: 2024-11-26
 description: "The cache lesson (and silly tweet) that changed how I think about programming"
 author: "Anika Somaia"
 image: { url: "/blog2.jpg", alt: "Funny computer architecture tweet" }
-claudeSummary: "Two identical loops can differ 10x in speed based on row vs column order. Why? Your CPU bets on what data you'll need next. Fight those bets and you lose. Big O isn't the whole story."
+claudePrompt: "Claude, I don't speak nerd"
+claudeSummary: "Plot twist: your beautiful O(n) algorithm might be slower than an 'uglier' one because your computer is secretly running a prediction game with your memory accesses. Anika discovered that two identical loops summing a 2D array can differ by 10x in speed—just based on whether you go row-by-row or column-by-column. Why? Caches. Your CPU is constantly betting on what data you'll need next, and if you fight those bets, you lose. Big O notation isn't the whole story."
 ---
 
 

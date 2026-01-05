@@ -4,7 +4,8 @@ pubDate: 2025-02-01
 description: "Two recent reads that frame the alignment problem from opposite ends"
 author: "Anika Somaia"
 image: { url: "/depressed_musician.webp", alt: "A depressed musician" }
-claudeSummary: "Two AI safety papers: one practical (build monitoring now), one philosophical (AI slowly games our metrics until we're passengers). Anika says we need both approaches—and fast."
+claudePrompt: "Claude, explain like I'm 5"
+claudeSummary: "Okay so Anika read two AI safety papers and can't stop thinking about them. One's all practical—'here's how we build monitoring systems and actually control AI today.' The other's more like a slow-burn horror story about AI gradually gaming our metrics until we're passengers in our own future. Her takeaway? We need both the engineer fixing today's problems AND the philosopher worrying about tomorrow's. And maybe we need them faster than we think."
 ---
 
 Among the AI safety papers I’ve been reading, two stand out for rereads: ["The case for ensuring that powerful AIs are controlled"](https://blog.redwoodresearch.org/p/the-case-for-ensuring-that-powerful) and Paul Christiano’s ["Another (Outer) Alignment Failure Story"](https://www.alignmentforum.org/posts/AyNHoTWWAJ5eb99ji/another-outer-alignment-failure-story).

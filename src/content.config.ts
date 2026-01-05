@@ -14,6 +14,7 @@ const posts = defineCollection({
     readingTime: z.number().optional(),
     draft: z.boolean().optional(),
     claudeSummary: z.string().optional(),
+    claudePrompt: z.string().optional(),
   }),
 });
 

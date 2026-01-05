@@ -27,7 +27,7 @@ for (const post of posts) {
       {
         posts.map((post) => (
           <a
-            href={`/blog/${post.id}`}
+            href={`/blog/${post.id.replace(/\.md$/, '')}`}
             class=" sm:flex sm:flex-row-reverse sm:justify-between sm:gap-6 post"
           >
             <Image

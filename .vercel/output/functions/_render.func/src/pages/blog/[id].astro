@@ -13,6 +13,7 @@ if (!entry) {
 
 const { Content, remarkPluginFrontmatter } = await render(entry);
 const claudeSummary = entry.data.claudeSummary;
+const claudePrompt = entry.data.claudePrompt || "Too long? Ask Claude";
 ---
 
 <Layout
@@ -40,12 +41,9 @@ const claudeSummary = entry.data.claudeSummary;
         <p class="opacity-60">
           {entry.data.pubDate.toLocaleDateString()} · {remarkPluginFrontmatter.minutesRead}
           {claudeSummary && (
-            <span>
-              {" · "}
-              <button id="claude-explain-btn" class="text-[#D97757] hover:underline">
-                Too long? Ask Claude
-              </button>
-            </span>
+            <button id="claude-explain-btn" class="ml-2 text-sm opacity-100 underline decoration-dotted underline-offset-4 hover:decoration-solid transition-all">
+              {claudePrompt}
+            </button>
           )}
         </p>
       </div>

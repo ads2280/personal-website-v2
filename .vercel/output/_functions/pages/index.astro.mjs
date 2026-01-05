@@ -3,8 +3,8 @@ import { c as createAstro, a as createComponent, m as maybeRenderHead, b as addA
 import 'kleur/colors';
 import '../chunks/index_MaT6fT73.mjs';
 import { $ as $$Image } from '../chunks/_astro_assets_BixfW36c.mjs';
-import { $ as $$Icon, b as $$Layout, i as identity, h as homePageContent } from '../chunks/Layout_BoY-DeMh.mjs';
-import { a as getCollection } from '../chunks/_astro_content_CitCxAiP.mjs';
+import { $ as $$Icon, b as $$Layout, i as identity, h as homePageContent } from '../chunks/Layout_CG7rfovR.mjs';
+import { a as getCollection } from '../chunks/_astro_content_B6am67nH.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro$1 = createAstro("https://anikasomaia.com");

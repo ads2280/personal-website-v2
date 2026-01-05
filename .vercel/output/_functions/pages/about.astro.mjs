@@ -3,7 +3,7 @@ import { c as createAstro, a as createComponent, m as maybeRenderHead, b as addA
 import 'kleur/colors';
 import '../chunks/index_MaT6fT73.mjs';
 import { $ as $$Image } from '../chunks/_astro_assets_BixfW36c.mjs';
-import { $ as $$Icon, a as aboutPageContent, b as $$Layout } from '../chunks/Layout_BoY-DeMh.mjs';
+import { $ as $$Icon, a as aboutPageContent, b as $$Layout } from '../chunks/Layout_CG7rfovR.mjs';
 import { marked } from 'marked';
 export { renderers } from '../renderers.mjs';
 

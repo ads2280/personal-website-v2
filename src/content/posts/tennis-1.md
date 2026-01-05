@@ -4,7 +4,8 @@ pubDate: 2024-11-26
 description: "Tennis scoring is secretly an elegant probability algorithm"
 author: "Anika Somaia"
 image: { url: "/blog1.jpg", alt: "Tennis court" }
-claudeSummary: "You can win more points and still lose (happens 4.5% of the time!). Tennis scoring creates a 'magnification effect'—win 55% of points instead of 50%, and your game win rate jumps to 62%. Math is wild."
+claudePrompt: "Claude, skip the math"
+claudeSummary: "Anika got nerdsniped on a plane and ended up doing probability math about tennis. The wild part? You can win MORE points than your opponent and still lose the match (happens ~4.5% of the time!). She breaks down why: tennis scoring creates this 'magnification effect' where tiny advantages compound dramatically. Win 55% of points instead of 50%? Your game win probability jumps to 62%. The scoring system isn't arbitrary—it's actually brilliant at filtering out luck and finding the more consistent player."
 ---
 
 On a flight from London to San Francisco, I was drawing curves on my iPad—a bunch of them that all looked basically the same, showing how tennis probabilities work. The guy next to me glanced over and asked if I was working on some kind of betting algorithm. I explained I was just trying to understand why someone can win fewer points in tennis but still win the match. Turns out he was curious about it too.
