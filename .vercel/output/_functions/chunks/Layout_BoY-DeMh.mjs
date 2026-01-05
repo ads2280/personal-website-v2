@@ -1,4 +1,4 @@
-import { c as createAstro, a as createComponent, m as maybeRenderHead, s as spreadAttributes, b as addAttribute, d as renderTemplate, r as renderComponent, u as unescapeHTML, F as Fragment, h as renderSlot, i as renderHead, j as renderScript } from './astro/server_8IDSeq5-.mjs';
+import { c as createAstro, a as createComponent, m as maybeRenderHead, s as spreadAttributes, b as addAttribute, d as renderTemplate, r as renderComponent, u as unescapeHTML, F as Fragment, i as renderSlot, j as renderHead, k as renderScript } from './astro/server_BVA2hifG.mjs';
 import 'kleur/colors';
 import { getIconData, iconToSVG } from '@iconify/utils';
 /* empty css                         */

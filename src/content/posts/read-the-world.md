@@ -4,6 +4,7 @@ pubDate: 2024-11-14
 description: "I'm trying to read a book from every country in the world"
 author: "Anika Somaia"
 image: { url: "/blog3.jpg", alt: "Reading the world" }
+claudeSummary: "Reading one book from every country (195 total). Half the fun is hunting down obscure authors from Suriname via Reddit. It's her escape from tech Twitter. Still needs Switzerland and Antarctica recs."
 ---
 
 A few months ago, I found [this book](https://ayearofreadingtheworld.com/2022/06/10/reading-the-world-a-new-edition/) by Ann Morgan about reading a book from every country in the world in a single year. The math was…interesting: 195 countries, about 3.75 books per week, roughly 134 pages daily. A year felt ambitious, but I loved the idea—and what better way to escape my daily routine than to read my way around the world?

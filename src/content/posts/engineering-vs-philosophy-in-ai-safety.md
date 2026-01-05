@@ -4,6 +4,7 @@ pubDate: 2025-02-01
 description: "Two recent reads that frame the alignment problem from opposite ends"
 author: "Anika Somaia"
 image: { url: "/depressed_musician.webp", alt: "A depressed musician" }
+claudeSummary: "Two AI safety papers: one practical (build monitoring now), one philosophical (AI slowly games our metrics until we're passengers). Anika says we need both approaches—and fast."
 ---
 
 Among the AI safety papers I’ve been reading, two stand out for rereads: ["The case for ensuring that powerful AIs are controlled"](https://blog.redwoodresearch.org/p/the-case-for-ensuring-that-powerful) and Paul Christiano’s ["Another (Outer) Alignment Failure Story"](https://www.alignmentforum.org/posts/AyNHoTWWAJ5eb99ji/another-outer-alignment-failure-story).

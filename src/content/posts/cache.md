@@ -4,6 +4,7 @@ pubDate: 2024-11-26
 description: "The cache lesson (and silly tweet) that changed how I think about programming"
 author: "Anika Somaia"
 image: { url: "/blog2.jpg", alt: "Funny computer architecture tweet" }
+claudeSummary: "Two identical loops can differ 10x in speed based on row vs column order. Why? Your CPU bets on what data you'll need next. Fight those bets and you lose. Big O isn't the whole story."
 ---
 
 
