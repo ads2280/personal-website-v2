@@ -44,7 +44,7 @@ const claudePrompt = entry.data.claudePrompt || "Too long? Ask Claude";
         <p class="opacity-60">
           {entry.data.pubDate.toLocaleDateString()} · {remarkPluginFrontmatter.minutesRead}
           {claudeSummary && (
-            <button id="claude-explain-btn" class="ml-2 text-sm opacity-100 underline decoration-dotted underline-offset-4 hover:decoration-solid transition-all">
+            <button id="claude-explain-btn" class="ml-2 px-2 py-0.5 text-sm bg-gray-200 dark:bg-gray-700 text-black dark:text-white rounded hover:bg-gray-300 dark:hover:bg-gray-600 transition-all">
               {claudePrompt}
             </button>
           )}
