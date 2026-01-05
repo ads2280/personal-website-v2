@@ -12,6 +12,8 @@
   "dependencies": {
     "@astrojs/check": "^0.9.4",
     "@astrojs/node": "^9.0.0",
+    "@astrojs/rss": "^4.0.14",
+    "@astrojs/sitemap": "^3.6.0",
     "@astrojs/tailwind": "^5.1.4",
     "@astrojs/vercel": "^8.2.7",
     "astro": "^5.1.1",

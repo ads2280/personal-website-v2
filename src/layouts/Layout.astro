@@ -9,6 +9,10 @@ interface Props {
 }
 
 const { seo } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const fullImageURL = seo.image?.startsWith("http")
+  ? seo.image
+  : new URL(seo.image || "/logo.webp", Astro.site).toString();
 ---
 
 <script>
@@ -55,9 +59,41 @@ const { seo } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <title>{seo.title}</title>
     <meta name="description" content={seo.description} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={seo.title} />
     <meta property="og:description" content={seo.description} />
-    <meta property="og:image" content={seo.image} />
+    <meta property="og:image" content={fullImageURL} />
+    <meta property="og:site_name" content="Anika Somaia" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={fullImageURL} />
+
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="Anika Somaia's Blog" href="/rss.xml" />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Anika Somaia",
+      "url": Astro.site,
+      "author": {
+        "@type": "Person",
+        "name": "Anika Somaia",
+        "email": "anika.somaia@columbia.edu",
+        "url": Astro.site
+      }
+    })} />
   </head>
   <body>
     <header>
