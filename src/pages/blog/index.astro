@@ -19,35 +19,53 @@ for (const post of posts) {
 ---
 
 <Layout seo={blogPageContent.seo}>
-  <section class="mt-10 max-w-2xl mx-auto px-6">
-    <h1 class="font-bold text-3xl mb-1">Blog</h1>
-    <p class="opacity-60 mb-14">{blogPageContent.subtitle}</p>
-
-    <div class="grid grid-cols-1 gap-10 sm:gap-6 mb-10">
-      {
-        posts.map((post) => (
-          <a
-            href={`/blog/${post.id.replace(/\.md$/, '')}`}
-            class=" sm:flex sm:flex-row-reverse sm:justify-between sm:gap-6 post"
-          >
-            <Image
-              src={post.data.image.url}
-              alt={post.data.image.url}
-              width={100}
-              height={100}
-              class={"rounded-lg w-[100px] h-[100px] object-cover"}
-            />
-            <div class="mt-4 sm:my-auto">
-              <p class="opacity-60 mb-2">
-                {post.data.pubDate.toLocaleDateString()} ·{" "}
-                {post.data.readingTime}
-              </p>
-              <h3 class="font-medium hover-underline">{post.data.title}</h3>
-              <p class="text-sm opacity-60 mt-2 mb-3">{post.data.description}</p>
-            </div>
-          </a>
-        ))
-      }
+  <div class="relative min-h-screen">
+    <!-- Vertical text on left -->
+    <div class="hidden lg:flex items-center justify-center w-16 fixed left-4 top-1/2 -translate-y-1/2">
+      <p class="vertical-text text-xs tracking-[0.3em] uppercase opacity-40">
+        Writing · Ideas
+      </p>
     </div>
-  </section>
+
+    <section class="px-6 lg:px-16 pt-16 lg:pt-24 max-w-4xl">
+      <!-- Header -->
+      <div class="mb-16">
+        <span class="bracket-label opacity-60 mb-4 block">[Archive]</span>
+        <h1 class="text-4xl lg:text-5xl font-bold tracking-tight mb-4">Blog</h1>
+        <p class="opacity-60 max-w-md">{blogPageContent.subtitle}</p>
+      </div>
+
+      <!-- Posts grid -->
+      <div class="space-y-12">
+        {
+          posts.map((post, index) => (
+            <a
+              href={`/blog/${post.id.replace(/\.md$/, '')}`}
+              class="flex items-start gap-6 group"
+            >
+              <span class="text-4xl lg:text-5xl font-bold opacity-20 group-hover:opacity-60 transition-opacity shrink-0">
+                [{String(index + 1).padStart(2, '0')}]
+              </span>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs uppercase tracking-wider opacity-40 mb-2">
+                  {post.data.pubDate.toLocaleDateString()} · {post.data.readingTime}
+                </p>
+                <h2 class="text-xl lg:text-2xl font-medium opacity-90 group-hover:opacity-100 transition-opacity mb-2">
+                  {post.data.title}
+                </h2>
+                <p class="text-sm opacity-50 line-clamp-2">{post.data.description}</p>
+              </div>
+              <Image
+                src={post.data.image.url}
+                alt={post.data.image.alt}
+                width={120}
+                height={120}
+                class="hidden sm:block rounded w-28 h-28 object-cover opacity-60 group-hover:opacity-100 transition-opacity shrink-0"
+              />
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </Layout>

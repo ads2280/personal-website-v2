@@ -2,8 +2,6 @@
 import { Image } from "astro:assets";
 import Layout from "../layouts/Layout.astro";
 import { homePageContent, identity } from "../config";
-import SocialLink from "../components/SocialLink.astro";
-import Link from "../components/Link.astro";
 import { getCollection } from "astro:content";
 
 let posts = await getCollection("posts");
@@ -13,78 +11,72 @@ posts.sort((a, b) => {
   const dateB = new Date(b.data.pubDate).getTime();
   return dateB - dateA;
 });
-posts.splice(2)
+posts.splice(3)
 ---
 
 <Layout seo={homePageContent.seo}>
-  <section class="mt-10 max-w-2xl mx-auto px-6">
-    <h1 class="font-bold text-3xl mb-1">{identity.name}</h1>
-    <p class="opacity-60 mb-10">{homePageContent.role}</p>
-    <div class="flex flex-col min-[520px]:flex-row gap-6 mb-8">
-      <Image
-        src={identity.logo}
-        alt={identity.name}
-        width={100}
-        height={100}
-        class="rounded-full bg-white"
-      />
-      <div class="group flex flex-col justify-center gap-2 w-fit">
-        {
-          homePageContent.socialLinks.map((link) => (
-            <SocialLink
-              title={link.title}
-              url={link.url}
-              icon={link.icon}
-              external={link.external}
-            />
-          ))
-        }
-      </div>
-    </div>
-    <p class="max-w-md mb-8">
+  <!-- Hero -->
+  <section class="px-6 lg:px-16 pt-24 pb-20 max-w-3xl">
+    <h1 class="text-4xl lg:text-5xl font-bold tracking-tight mb-6">
+      {identity.name}
+    </h1>
+
+    <p class="text-lg opacity-60 mb-10 leading-relaxed max-w-xl">
       {homePageContent.description}
     </p>
-    <div class="flex items-center gap-4 group w-fit">
+
+    <div class="flex items-center gap-6 text-sm">
       {
-        homePageContent.links.map((link) => (
-          <Link text={link.title} href={link.url} external={link.external} />
-        ))
-      }
-    </div>
-  </section>
-  <section class="mt-20 max-w-2xl mx-auto px-6">
-    <h2 class="mb-8">Latest Posts</h2>
-    <div class="grid grid-cols-1 gap-10 sm:gap-6 mb-10">
-      {
-        posts.map((post) => (
+        homePageContent.socialLinks.map((link) => (
           <a
-            href={`/blog/${post.id.replace(/\.md$/, '')}`}
-            class=" sm:flex sm:flex-row-reverse sm:justify-between sm:gap-6 post"
+            href={link.url}
+            target="_blank"
+            class="opacity-50 hover:opacity-100 transition-opacity"
           >
-            <Image
-              src={post.data.image.url}
-              alt={post.data.image.url}
-              width={100}
-              height={100}
-              class={"rounded-lg w-[100px] h-[100px] object-cover"}
-            />
-            <div class="mt-4 sm:my-auto">
-              <p class="opacity-60 mb-2">
-                {post.data.pubDate.toLocaleDateString()}
-              </p>
-              <h3 class="font-medium hover-underline">{post.data.title}</h3>
-              <p class="text-sm opacity-60 mt-2 mb-3">{post.data.description}</p>
-            </div>
+            {link.title}
           </a>
         ))
       }
     </div>
-    <div class="text-center">
-      <a
-        href="/blog"
-        class="underline underline-offset-4 opacity-60 hover:opacity-100 transition-opacity"
-        >View all</a
-      >
+  </section>
+
+  <!-- Latest posts -->
+  <section class="px-6 lg:px-16 pb-24 max-w-4xl">
+    <p class="text-xs uppercase tracking-[0.2em] opacity-40 mb-10">Latest</p>
+
+    <div class="space-y-10">
+      {
+        posts.map((post, index) => (
+          <a
+            href={`/blog/${post.id.replace(/\.md$/, '')}`}
+            class="flex items-start gap-6 group"
+          >
+            <span class="text-3xl font-bold opacity-20 group-hover:opacity-40 transition-opacity pt-1">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <div class="flex-1">
+              <p class="text-xs opacity-40 mb-2">
+                {post.data.pubDate.toLocaleDateString()}
+              </p>
+              <h3 class="text-lg font-medium opacity-80 group-hover:opacity-100 transition-opacity mb-2">
+                {post.data.title}
+              </h3>
+              <p class="text-sm opacity-50">{post.data.description}</p>
+            </div>
+            <Image
+              src={post.data.image.url}
+              alt={post.data.image.alt}
+              width={100}
+              height={100}
+              class="hidden sm:block w-24 h-24 object-cover rounded opacity-60 group-hover:opacity-100 transition-opacity"
+            />
+          </a>
+        ))
+      }
     </div>
+
+    <a href="/blog" class="inline-block mt-12 text-sm opacity-40 hover:opacity-100 transition-opacity">
+      All posts →
+    </a>
   </section>
 </Layout>
