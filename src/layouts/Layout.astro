@@ -1,6 +1,7 @@
 ---
+import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
-import { navBarLinks } from "../config";
+import { navBarLinks, identity } from "../config";
 import type { SEOInfo } from "../types/config";
 
 interface Props {
@@ -102,30 +103,33 @@ const fullImageURL = seo.image?.startsWith("http")
       }
     })} />
 
-    <!-- Theme initialization (defaults to dark) -->
+    <!-- Theme initialization (prevents flash) -->
     <script is:inline>
-      const theme = localStorage.getItem("theme") || "dark";
+      const theme = localStorage.getItem("theme") ||
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       document.documentElement.classList.toggle("dark", theme === "dark");
     </script>
   </head>
   <body class="bg-white dark:bg-black text-black dark:text-white transition-colors">
-    <header class="fixed top-0 right-0 z-50 p-6">
-      <div class="flex items-center gap-4">
+    <header>
+      <div
+        class="px-6 py-6 max-w-2xl mx-auto flex items-center justify-between"
+      >
         <button
           id="theme-toggle"
-          class="p-2 opacity-40 hover:opacity-100 transition-opacity"
+          class="p-2 rounded-lg hover:bg-gray-bg-light dark:hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
           aria-label="Toggle theme"
         >
-          <Icon name="mdi:weather-sunny" class="w-4 h-4 hidden dark:block" />
-          <Icon name="mdi:weather-night" class="w-4 h-4 block dark:hidden" />
+          <Icon name="mdi:weather-sunny" class="w-5 h-5 hidden dark:block" />
+          <Icon name="mdi:weather-night" class="w-5 h-5 block dark:hidden" />
         </button>
-        <nav>
-          <ul class="hidden sm:flex sm:items-center sm:gap-1">
+        <nav class="ml-auto mr-0 sm:mr-4">
+          <ul class="hidden sm:flex sm:items-center sm:gap-2">
             {
               navBarLinks.map((link) => (
                 <li>
                   <a
-                    class="text-xs uppercase tracking-wider px-3 py-2 opacity-40 hover:opacity-100 transition-opacity"
+                    class="group px-4 py-2 rounded-lg hover:bg-gray-bg-light dark:hover:bg-gray-bg opacity-60 hover:opacity-100 transition-all"
                     href={link.url}
                     target={link.external ? "_blank" : "_self"}
                   >
@@ -138,23 +142,23 @@ const fullImageURL = seo.image?.startsWith("http")
           <div class="relative sm:hidden">
             <button
               id="link-menu-button"
-              class="text-xs uppercase tracking-wider opacity-40 hover:opacity-100 p-2"
-              >[Menu <span id="open-indicator">+</span>]</button
+              class="relative font-medium opacity-60 p-4"
+              >Menu <span id="open-indicator">+</span></button
             >
             <div
               id="link-menu"
-              class="absolute p-4 right-0 top-10 bg-gray-bg-light dark:bg-gray-bg rounded w-44 transition-opacity ease-in-out duration-300 opacity-0 pointer-events-none z-40"
+              class="absolute p-2 right-0 bg-gray-bg-light dark:bg-gray-bg rounded-lg w-44 transition-opacity ease-in-out duration-300 opacity-0 z-40"
             >
-              <ul class="space-y-3">
+              <ul>
                 {
                   navBarLinks.map((link) => (
                     <li>
                       <a
-                        class="block text-xs uppercase tracking-wider opacity-60 hover:opacity-100"
+                        class="block pl-4 py-3"
                         href={link.url}
                         target={link.external ? "_blank" : "_self"}
                       >
-                        [{link.title}]
+                        {link.title}
                       </a>
                     </li>
                   ))
@@ -168,11 +172,14 @@ const fullImageURL = seo.image?.startsWith("http")
     <main class="mb-32">
       <slot />
     </main>
-    <footer class="border-t border-gray-200 dark:border-gray-800 mt-32">
-      <div class="px-6 lg:px-16 py-12">
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
-          <p class="text-xs uppercase tracking-wider opacity-40">© 2025 Anika Somaia</p>
-          <p class="text-xs uppercase tracking-wider opacity-40">[London · California · NYC]</p>
+    <footer class="border-t border-gray-200 dark:border-gray-800 mt-16">
+      <div class="max-w-2xl mx-auto px-6 py-8">
+        <div class="text-center text-sm opacity-60 space-y-2">
+          <p>
+            Adapted from 
+            <span>TimWitzdam's repo</span>
+          </p>
+          <p>© 2025 Anika Somaia</p>
         </div>
       </div>
     </footer>
@@ -180,10 +187,10 @@ const fullImageURL = seo.image?.startsWith("http")
 </html>
 
 <style is:global>
-  @import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
 
   html {
-    font-family: "Space Mono", monospace;
+    font-family: "Inter", sans-serif;
   }
 
   * {
@@ -233,19 +240,5 @@ const fullImageURL = seo.image?.startsWith("http")
 
   .dark .mb-14 a:hover, .dark .mb-6 a:hover {
     color: #93c5fd;
-  }
-
-  /* Vertical text for editorial aesthetic */
-  .vertical-text {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    transform: rotate(180deg);
-  }
-
-  /* Bracketed labels */
-  .bracket-label {
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-size: 0.75rem;
   }
 </style>

@@ -4,12 +4,9 @@ export default {
   darkMode: "class",
   theme: {
     extend: {
-      fontFamily: {
-        mono: ['"Space Mono"', "monospace"],
-      },
       colors: {
-        "gray-bg": "#111111",
-        "gray-bg-light": "#f5f5f5",
+        "gray-bg": "#2E2E2E",
+        "gray-bg-light": "#E5E5E5",
       },
     },
   },

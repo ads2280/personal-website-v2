@@ -7,30 +7,27 @@ type Props = ResumeItem;
 const { title, company, date, description } = Astro.props;
 ---
 
-<div class="flex-1 pb-8 border-b border-gray-200 dark:border-gray-800 last:border-b-0">
+<div class="py-4 border-b border-gray-200 dark:border-gray-900 last:border-b-0">
   <a
     href={company.url}
-    target="_blank"
-    class="block group"
+    class="flex items-start justify-between group hover:opacity-80 transition-opacity"
   >
-    <div class="flex items-start gap-4">
+    <div class="flex items-start gap-4 flex-1">
       <Image
         src={company.image}
         alt={company.name}
-        width={48}
-        height={48}
-        class="rounded w-12 h-12 object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+        width={40}
+        height={40}
+        class="rounded-full w-[40px] h-[40px] object-cover mt-1"
       />
       <div class="flex-1">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-2">
-          <h3 class="font-medium text-lg opacity-90 group-hover:opacity-100 transition-opacity">{title}</h3>
-          <p class="text-xs uppercase tracking-wider opacity-40">{date}</p>
-        </div>
-        <p class="text-sm uppercase tracking-wider opacity-60 mb-3">[{company.name}]</p>
+        <h3 class="font-medium text-lg">{title}</h3>
+        <p class="text-sm opacity-60 mb-2">{company.name}</p>
         {description && (
-          <p class="text-sm opacity-60 leading-relaxed">{description}</p>
+          <p class="text-sm opacity-80 leading-relaxed">{description}</p>
         )}
       </div>
     </div>
+    <p class="text-sm opacity-60 ml-4 mt-1">{date}</p>
   </a>
 </div>
