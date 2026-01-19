@@ -5,15 +5,35 @@ import ProjectCard from "../components/ProjectCard.astro";
 ---
 
 <Layout seo={projectsPageContent.seo}>
-  <section class="mt-10 max-w-2xl mx-auto px-6">
-    <h1 class="font-bold text-3xl mb-1">Projects</h1>
-    <p class="opacity-60 mb-10">{projectsPageContent.subtitle}</p>
-    <div class="grid grid-cols-1 group">
-      {
-        projectsPageContent.projects.map((project) => (
-          <ProjectCard {...project} />
-        ))
-      }
+  <div class="relative min-h-screen">
+    <!-- Vertical text on left -->
+    <div class="hidden lg:flex items-center justify-center w-16 fixed left-4 top-1/2 -translate-y-1/2">
+      <p class="vertical-text text-xs tracking-[0.3em] uppercase opacity-40">
+        Selected Work
+      </p>
     </div>
-  </section>
+
+    <section class="px-6 lg:px-16 pt-16 lg:pt-24 max-w-4xl">
+      <!-- Header -->
+      <div class="mb-16">
+        <span class="bracket-label opacity-60 mb-4 block">[Portfolio]</span>
+        <h1 class="text-4xl lg:text-5xl font-bold tracking-tight mb-4">Projects</h1>
+        <p class="opacity-60 max-w-md">{projectsPageContent.subtitle}</p>
+      </div>
+
+      <!-- Projects grid -->
+      <div class="space-y-16">
+        {
+          projectsPageContent.projects.map((project, index) => (
+            <div class="flex items-start gap-6">
+              <span class="text-4xl font-bold opacity-20 shrink-0 hidden sm:block">
+                [{String(index + 1).padStart(2, '0')}]
+              </span>
+              <ProjectCard {...project} />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </Layout>
