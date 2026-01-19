@@ -11,12 +11,20 @@ posts.sort((a, b) => {
   const dateB = new Date(b.data.pubDate).getTime();
   return dateB - dateA;
 });
-posts.splice(3)
+posts.splice(2)
+
+// Bulletin board items
+const bulletinItems = [
+  { type: 'book', title: 'Chaos Monkeys', author: 'Antonio García Martínez', status: 'reading' },
+  { type: 'book', title: 'How to Not Be Wrong', author: 'Jordan Ellenberg', status: 'reading' },
+  { type: 'event', title: 'Warriors vs Lakers', date: 'Last week', emoji: '🏀' },
+  { type: 'tweet', text: 'the best part of working on AI is that every week something happens that makes you completely rethink everything', url: 'https://x.com/anikasomaia' },
+];
 ---
 
 <Layout seo={homePageContent.seo}>
   <!-- Hero -->
-  <section class="px-6 lg:px-16 pt-24 pb-20 max-w-3xl">
+  <section class="px-6 lg:px-16 pt-24 pb-16 max-w-3xl">
     <h1 class="text-4xl lg:text-5xl font-bold tracking-tight mb-6">
       {identity.name}
     </h1>
@@ -40,43 +48,79 @@ posts.splice(3)
     </div>
   </section>
 
-  <!-- Latest posts -->
-  <section class="px-6 lg:px-16 pb-24 max-w-4xl">
-    <p class="text-xs uppercase tracking-[0.2em] opacity-40 mb-10">Latest</p>
+  <!-- Bulletin Board -->
+  <section class="px-6 lg:px-16 pb-24">
+    <div class="columns-2 md:columns-3 gap-4 max-w-3xl space-y-4">
 
-    <div class="space-y-10">
-      {
-        posts.map((post, index) => (
-          <a
-            href={`/blog/${post.id.replace(/\.md$/, '')}`}
-            class="flex items-start gap-6 group"
-          >
-            <span class="text-3xl font-bold opacity-20 group-hover:opacity-40 transition-opacity pt-1">
-              {String(index + 1).padStart(2, '0')}
-            </span>
-            <div class="flex-1">
-              <p class="text-xs opacity-40 mb-2">
-                {post.data.pubDate.toLocaleDateString()}
-              </p>
-              <h3 class="text-lg font-medium opacity-80 group-hover:opacity-100 transition-opacity mb-2">
-                {post.data.title}
-              </h3>
-              <p class="text-sm opacity-50">{post.data.description}</p>
-            </div>
-            <Image
-              src={post.data.image.url}
-              alt={post.data.image.alt}
-              width={100}
-              height={100}
-              class="hidden sm:block w-24 h-24 object-cover rounded opacity-60 group-hover:opacity-100 transition-opacity"
-            />
-          </a>
-        ))
-      }
+      {/* Quote */}
+      <div class="break-inside-avoid p-4 border-l-2 border-gray-600">
+        <p class="text-sm italic opacity-70 leading-relaxed">"you can have anything you want but not everything you want"</p>
+      </div>
+
+      {/* Blog post 1 */}
+      {posts[0] && (
+        <a
+          href={`/blog/${posts[0].id.replace(/\.md$/, '')}`}
+          class="break-inside-avoid block p-4 border border-gray-800 hover:border-gray-600 transition-colors group"
+        >
+          <p class="text-[10px] uppercase tracking-wider opacity-30 mb-2">writing</p>
+          <p class="text-sm opacity-70 group-hover:opacity-100 transition-opacity leading-snug">
+            {posts[0].data.title}
+          </p>
+        </a>
+      )}
+
+      {/* Book 1 */}
+      <div class="break-inside-avoid p-4">
+        <p class="text-[10px] uppercase tracking-wider opacity-30 mb-2">reading</p>
+        <p class="text-sm opacity-70">Chaos Monkeys</p>
+      </div>
+
+      {/* Tweet */}
+      <a
+        href="https://x.com/anikasomaia"
+        target="_blank"
+        class="break-inside-avoid block p-4 hover:bg-gray-900 transition-colors"
+      >
+        <p class="text-[10px] opacity-30 mb-2">@anikasomaia</p>
+        <p class="text-sm opacity-60 hover:opacity-80 leading-relaxed">
+          the best part of working on AI is that every week something happens that makes you completely rethink everything
+        </p>
+      </a>
+
+      {/* Event */}
+      <div class="break-inside-avoid p-4">
+        <p class="text-[10px] uppercase tracking-wider opacity-30 mb-2">recently</p>
+        <p class="text-sm opacity-70">Warriors game 🏀</p>
+      </div>
+
+      {/* Book 2 */}
+      <div class="break-inside-avoid p-4">
+        <p class="text-[10px] uppercase tracking-wider opacity-30 mb-2">reading</p>
+        <p class="text-sm opacity-70">How to Not Be Wrong</p>
+      </div>
+
+      {/* Blog post 2 */}
+      {posts[1] && (
+        <a
+          href={`/blog/${posts[1].id.replace(/\.md$/, '')}`}
+          class="break-inside-avoid block p-4 border border-gray-800 hover:border-gray-600 transition-colors group"
+        >
+          <p class="text-[10px] uppercase tracking-wider opacity-30 mb-2">writing</p>
+          <p class="text-sm opacity-70 group-hover:opacity-100 transition-opacity leading-snug">
+            {posts[1].data.title}
+          </p>
+        </a>
+      )}
+
+      {/* All posts */}
+      <a
+        href="/blog"
+        class="break-inside-avoid block p-4 opacity-40 hover:opacity-70 transition-opacity"
+      >
+        <span class="text-sm">all posts →</span>
+      </a>
+
     </div>
-
-    <a href="/blog" class="inline-block mt-12 text-sm opacity-40 hover:opacity-100 transition-opacity">
-      All posts →
-    </a>
   </section>
 </Layout>
