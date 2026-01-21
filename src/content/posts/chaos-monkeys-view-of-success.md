@@ -1,7 +1,7 @@
 ---
-title: "The Chaos Monkey's View of Success"
+title: "The Chaos Monkey's Anatomy of Success"
 pubDate: 2026-01-20
-description: "Success is less rational than you think"
+description: "How messy and irrational is success, really?"
 author: "Anika Somaia"
 image: { url: "/chaos_monkeys.jpg", alt: "Chaos Monkeys book cover" }
 ---
