@@ -87,4 +87,23 @@ posts.splice(2)
       >
     </div>
   </section>
+  {homePageContent.currentlyReading && homePageContent.currentlyReading.length > 0 && (
+    <section class="mt-20 max-w-2xl mx-auto px-6 mb-20">
+      <h2 class="mb-8">What I'm Reading</h2>
+      <ul class="space-y-4">
+        {homePageContent.currentlyReading.map((book) => (
+          <li class="flex items-baseline gap-2">
+            {book.url ? (
+              <a href={book.url} target="_blank" rel="noopener noreferrer" class="hover-underline font-medium">
+                {book.title}
+              </a>
+            ) : (
+              <span class="font-medium">{book.title}</span>
+            )}
+            <span class="opacity-60">by {book.author}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
 </Layout>
