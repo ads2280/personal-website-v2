@@ -23,6 +23,12 @@ export type SEOInfo = {
   image: string;
 };
 
+export type ReadingItem = {
+  title: string;
+  author: string;
+  url?: string;
+};
+
 export type HomePageContent = {
   seo: SEOInfo;
   role: string;
@@ -33,6 +39,7 @@ export type HomePageContent = {
     url: string;
     external?: boolean;
   }[];
+  currentlyReading?: ReadingItem[];
 };
 
 export type ResumeItem = {

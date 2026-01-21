@@ -7,6 +7,7 @@ import type {
   BlogPageContent,
   HomePageContent,
   WorkPageContent,
+  ReadingItem,
 } from "./types/config";
 
 export const identity: Identity = {
@@ -79,6 +80,24 @@ export const homePageContent: HomePageContent = {
     {
       title: "About Me",
       url: "/about",
+    },
+  ],
+  currentlyReading: [
+    {
+      title: "Chaos Monkeys",
+      author: "Antonio García Martínez",
+    },
+    {
+      title: "How Not to Be Wrong: The Power of Mathematical Thinking",
+      author: "Jordan Ellenberg",
+    },
+    {
+      title: "Surely You're Joking, Mr. Feynman!",
+      author: "Richard Feynman",
+    },
+    {
+      title: "The Bell Jar",
+      author: "Sylvia Plath",
     },
   ],
 };
