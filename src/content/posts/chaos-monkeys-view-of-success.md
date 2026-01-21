@@ -1,7 +1,7 @@
 ---
-title: "The Chaos Monkeys View of How Success Works"
-pubDate: 2025-01-20
-description: "What Silicon Valley's messiest memoir taught me about intelligence, endurance, and taking swings"
+title: "The Chaos Monkey's View of Success"
+pubDate: 2026-01-20
+description: "Success is less rational than you think"
 author: "Anika Somaia"
 image: { url: "/chaos_monkeys.jpg", alt: "Chaos Monkeys book cover" }
 ---
