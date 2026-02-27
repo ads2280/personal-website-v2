@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#12122a" />
+  <title>🤖 AI Counter</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;900&display=swap" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       FIREBASE SDK  (compat build — no bundler needed)
+       These two scripts give you firebase.initializeApp() and
+       firebase.database() as globals.
+  ═══════════════════════════════════════════════════════════════ -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
+  <style>
+    /* ─── Reset ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #12122a;
+      --surface: #1c1c38;
+      --accent:  #e94560;
+      --muted:   rgba(255,255,255,0.45);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: var(--bg);
+      color: #fff;
+      min-height: 100vh;
+      /* leave room for the sticky footer */
+      padding-bottom: 130px;
+      overflow-x: hidden;
+    }
+
+    /* ─── Header ─── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: linear-gradient(135deg, #e94560 0%, #c0233e 100%);
+      padding: 18px 16px 14px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(233,69,96,0.45);
+    }
+    header h1 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+    header p { font-size: 0.82rem; opacity: 0.9; margin-top: 3px; }
+
+    /* connection status pill */
+    .status-bar {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      background: rgba(0,0,0,0.25);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.72rem;
+    }
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      animation: blink 2s infinite;
+    }
+    .dot.offline { background: #f87171; animation: none; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
+
+    /* ─── Leaderboard ─── */
+    .board {
+      margin: 14px 12px 0;
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 14px 14px 10px;
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+    .section-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .lb-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 10px;
+      margin-bottom: 6px;
+    }
+    .lb-rank  { font-size: 1.1rem; min-width: 30px; text-align: center; }
+    .lb-name  { flex: 1; font-size: 0.95rem; font-weight: 900; }
+    .lb-count {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+    .lb-empty { color: var(--muted); font-size: 0.9rem; text-align: center; padding: 4px 0; }
+
+    /* ─── Cards Grid ─── */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 14px 12px 0;
+    }
+
+    /* ─── Individual Tally Card ─── */
+    .card {
+      border-radius: 22px;
+      padding: 14px 12px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* bounce keyframe triggered by JS */
+    .card.bounce { animation: cardBounce 0.42s ease; }
+    @keyframes cardBounce {
+      0%   { transform: scale(1); }
+      28%  { transform: scale(0.92); }
+      58%  { transform: scale(1.08); }
+      80%  { transform: scale(0.97); }
+      100% { transform: scale(1); }
+    }
+
+    .card-medal  { position: absolute; top: 8px; left: 10px; font-size: 1rem; }
+    .card-rm {
+      position: absolute; top: 6px; right: 8px;
+      background: rgba(0,0,0,0.22);
+      border: none; color: rgba(255,255,255,0.75);
+      width: 24px; height: 24px;
+      border-radius: 50%; font-size: 1rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.15s;
+    }
+    .card-rm:hover { background: rgba(0,0,0,0.45); }
+
+    .card-name {
+      font-size: 0.9rem; font-weight: 900;
+      text-align: center; width: 100%;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      padding: 0 28px; /* clear medal + rm button */
+      margin-top: 2px;
+    }
+    .card-count {
+      font-family: 'Fredoka One', cursive;
+      font-size: 3.6rem; line-height: 1.1;
+      margin: 8px 0 12px;
+    }
+
+    /* big tap-friendly +1 button */
+    .plus-btn {
+      width: 100%;
+      background: rgba(0,0,0,0.22);
+      border: none; border-radius: 14px;
+      padding: 15px 0;
+      font-size: 1.7rem; font-weight: 900;
+      color: #fff; cursor: pointer;
+      transition: background 0.12s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .plus-btn:active { background: rgba(0,0,0,0.4); transform: scale(0.95); }
+
+    /* ─── Floating "+1" animation ─── */
+    .float-plus {
+      position: fixed;
+      font-family: 'Fredoka One', cursive;
+      font-size: 2.4rem;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.55);
+      pointer-events: none;
+      z-index: 9999;
+      animation: floatUp 0.85s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0%   { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(-90px) scale(1.9); }
+    }
+
+    /* ─── Confetti particles ─── */
+    .confetti-dot {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      border-radius: 2px;
+      animation: burst var(--dur) ease-out forwards;
+      animation-delay: var(--delay);
+    }
+    @keyframes burst {
+      0%   { transform: translate(0,0) rotate(0deg) scale(1);     opacity: 1; }
+      100% { transform: translate(var(--tx),var(--ty)) rotate(var(--rot)) scale(0.1); opacity: 0; }
+    }
+
+    /* ─── Empty state ─── */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+    .empty .big { font-size: 3.5rem; display: block; margin-bottom: 12px; }
+
+    /* ─── Sticky Footer (add + reset) ─── */
+    .footer {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: var(--surface);
+      border-top: 1px solid rgba(255,255,255,0.09);
+      padding: 10px 12px 12px;
+      z-index: 100;
+    }
+    .add-row { display: flex; gap: 8px; }
+    .add-input {
+      flex: 1;
+      background: rgba(255,255,255,0.09);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 12px;
+      padding: 12px 14px;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 700;
+      color: #fff;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .add-input::placeholder { color: var(--muted); }
+    .add-input:focus { border-color: var(--accent); }
+    /* shake animation for duplicate names */
+    .add-input.shake { animation: shake 0.38s ease; }
+    @keyframes shake {
+      0%,100%{ transform: translateX(0); }
+      20%,60%{ transform: translateX(-7px); }
+      40%,80%{ transform: translateX(7px); }
+    }
+    .add-btn {
+      background: var(--accent);
+      border: none; border-radius: 12px;
+      padding: 12px 20px;
+      font-size: 1.5rem; font-weight: 900;
+      color: #fff; cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .add-btn:active { transform: scale(0.93); }
+    .reset-btn {
+      width: 100%; margin-top: 8px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 12px;
+      padding: 8px;
+      color: var(--muted);
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .reset-btn:hover { border-color: #f87171; color: #f87171; }
+
+    /* ─── Confirmation Modal ─── */
+    .overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .overlay.show { opacity: 1; pointer-events: all; }
+    .modal {
+      background: #1e1e3a;
+      border-radius: 22px;
+      padding: 24px;
+      max-width: 310px; width: 100%;
+      border: 1px solid rgba(255,255,255,0.1);
+      transform: scale(0.88);
+      transition: transform 0.2s;
+    }
+    .overlay.show .modal { transform: scale(1); }
+    .modal h2 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.55rem; margin-bottom: 8px;
+    }
+    .modal p { color: var(--muted); font-size: 0.88rem; margin-bottom: 20px; }
+    .modal-btns { display: flex; gap: 10px; }
+    .btn-cancel, .btn-confirm {
+      flex: 1; padding: 12px;
+      border-radius: 12px; border: none;
+      font-size: 1rem;
+      font-family: 'Nunito', sans-serif; font-weight: 700;
+      cursor: pointer;
+    }
+    .btn-cancel  { background: rgba(255,255,255,0.1); color: #fff; }
+    .btn-confirm { background: #f87171; color: #fff; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 320px) {
+      .grid { grid-template-columns: 1fr; }
+      .card-count { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header>
+  <h1>🤖 AI Counter</h1>
+  <p>Who can't stop saying "AI"?</p>
+  <div class="status-bar">
+    <span class="dot" id="dot"></span>
+    <span id="statusTxt">Connecting…</span>
+  </div>
+</header>
+
+<!-- ── Leaderboard ── -->
+<div class="board">
+  <div class="section-label">🏆 Leaderboard</div>
+  <div id="lbList"><div class="lb-empty">Add people below to get started!</div></div>
+</div>
+
+<!-- ── Cards ── -->
+<div class="grid" id="grid" style="display:none"></div>
+<div class="empty" id="empty" style="display:none">
+  <span class="big">👇</span>
+  <p>Add your first person below to start tracking!</p>
+</div>
+
+<!-- ── Footer ── -->
+<div class="footer">
+  <div class="add-row">
+    <input class="add-input" id="nameInput" type="text"
+           placeholder="Add a person…" maxlength="20"
+           autocomplete="off" autocorrect="off" autocapitalize="words" />
+    <button class="add-btn" id="addBtn">+</button>
+  </div>
+  <button class="reset-btn" id="resetBtn">↺ Reset All Counts</button>
+</div>
+
+<!-- ── Confirm Reset Modal ── -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>Reset Everything?</h2>
+    <p>All counts go back to zero — this affects every device on the trip!</p>
+    <div class="modal-btns">
+      <button class="btn-cancel"  id="cancelBtn">Nope</button>
+      <button class="btn-confirm" id="confirmBtn">Yes, Reset!</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════
+//  STEP 1 ▶ PASTE YOUR FIREBASE CONFIG HERE
+//  Get these values from: Firebase Console → Project Settings → Your Apps
+// ════════════════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "YOUR_API_KEY",
+  authDomain:        "YOUR_PROJECT_ID.firebaseapp.com",
+  databaseURL:       "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+  projectId:         "YOUR_PROJECT_ID",
+  storageBucket:     "YOUR_PROJECT_ID.appspot.com",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId:             "YOUR_APP_ID"
+};
+// ════════════════════════════════════════════════════════════════════════
+
+// ── Card color palette ──────────────────────────────────────────────────
+const COLORS = [
+  { bg: '#e94560', shadow: 'rgba(233,69,96,0.45)',   light: false },
+  { bg: '#4ecdc4', shadow: 'rgba(78,205,196,0.45)',  light: false },
+  { bg: '#ffd93d', shadow: 'rgba(255,217,61,0.45)',  light: true  },
+  { bg: '#6c5ce7', shadow: 'rgba(108,92,231,0.45)',  light: false },
+  { bg: '#ff8b94', shadow: 'rgba(255,139,148,0.45)', light: false },
+  { bg: '#45b7d1', shadow: 'rgba(69,183,209,0.45)',  light: false },
+  { bg: '#a8e063', shadow: 'rgba(168,224,99,0.45)',  light: true  },
+  { bg: '#fd79a8', shadow: 'rgba(253,121,168,0.45)', light: false },
+];
+
+const MEDALS   = ['🥇','🥈','🥉'];
+const CONFETTI = ['#FF6B6B','#FFD93D','#6C5CE7','#4ECDC4','#FF8B94','#A8E6CF','#FD79A8','#45B7D1'];
+
+// ── DOM refs ────────────────────────────────────────────────────────────
+const grid      = document.getElementById('grid');
+const lbList    = document.getElementById('lbList');
+const empty     = document.getElementById('empty');
+const nameInput = document.getElementById('nameInput');
+const addBtn    = document.getElementById('addBtn');
+const resetBtn  = document.getElementById('resetBtn');
+const overlay   = document.getElementById('overlay');
+const cancelBtn = document.getElementById('cancelBtn');
+const confirmBtn= document.getElementById('confirmBtn');
+const dot       = document.getElementById('dot');
+const statusTxt = document.getElementById('statusTxt');
+
+// ── Local state (mirror of Firebase) ───────────────────────────────────
+let people = {}; // { firebaseId: { name, count, colorIndex, addedAt } }
+let db, peopleRef;
+
+// ════════════════════════════════════════════════════════════════════════
+//  FIREBASE INIT
+// ════════════════════════════════════════════════════════════════════════
+function isConfigured() {
+  return firebaseConfig.apiKey !== 'YOUR_API_KEY';
+}
+
+function initFirebase() {
+  firebase.initializeApp(firebaseConfig);
+  db        = firebase.database();
+  peopleRef = db.ref('people');
+
+  // Track online/offline status
+  db.ref('.info/connected').on('value', snap => {
+    if (snap.val()) {
+      dot.classList.remove('offline');
+      statusTxt.textContent = 'Live — synced across all devices';
+    } else {
+      dot.classList.add('offline');
+      statusTxt.textContent = 'Reconnecting…';
+    }
+  });
+
+  // ── Real-time listener: called whenever any device changes data ──────
+  // Firebase fires this immediately with the current snapshot, then again
+  // on every subsequent write — no polling needed.
+  peopleRef.on('value', snapshot => {
+    people = snapshot.val() || {};
+    render();
+  });
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  RENDERING
+// ════════════════════════════════════════════════════════════════════════
+function sorted() {
+  return Object.entries(people)
+    .map(([id, p]) => ({ id, ...p }))
+    .sort((a, b) => b.count - a.count || a.addedAt - b.addedAt);
+}
+
+function render() {
+  const list = sorted();
+
+  // rank map for badge display
+  const rankOf = {};
+  list.forEach((p, i) => rankOf[p.id] = i);
+
+  renderLeaderboard(list);
+  renderCards(list, rankOf);
+
+  const hasData = list.length > 0;
+  grid.style.display  = hasData ? 'grid'  : 'none';
+  empty.style.display = hasData ? 'none'  : 'block';
+}
+
+function renderLeaderboard(list) {
+  if (list.length === 0) {
+    lbList.innerHTML = '<div class="lb-empty">Add people below to get started!</div>';
+    return;
+  }
+  lbList.innerHTML = list.map((p, i) => `
+    <div class="lb-row">
+      <span class="lb-rank">${i < 3 ? MEDALS[i] : '#' + (i + 1)}</span>
+      <span class="lb-name">${esc(p.name)}</span>
+      <span class="lb-count">${p.count}</span>
+    </div>
+  `).join('');
+}
+
+function renderCards(list, rankOf) {
+  grid.innerHTML = list.map(p => {
+    const c      = COLORS[p.colorIndex % COLORS.length];
+    const fgColor = c.light ? '#12122a' : '#ffffff';
+    const rank   = rankOf[p.id];
+    const medal  = rank < 3 ? MEDALS[rank] : '';
+
+    return `
+      <div class="card" id="card-${p.id}"
+           style="background:${c.bg}; box-shadow:0 6px 24px ${c.shadow}; color:${fgColor}">
+        <span class="card-medal">${medal}</span>
+        <button class="card-rm" onclick="removePerson('${p.id}')"
+                aria-label="Remove ${esc(p.name)}">×</button>
+        <div class="card-name">${esc(p.name)}</div>
+        <div class="card-count" id="cnt-${p.id}">${p.count}</div>
+        <button class="plus-btn"
+                onclick="increment('${p.id}', event)"
+                ontouchstart="">+1</button>
+      </div>
+    `;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  FIREBASE WRITE OPERATIONS
+// ════════════════════════════════════════════════════════════════════════
+
+// Add a new person to the database
+function addPerson() {
+  const name = nameInput.value.trim();
+  if (!name) return;
+  if (!db) { alert('Firebase not configured — see instructions below!'); return; }
+
+  // Prevent duplicate names (case-insensitive)
+  const dup = Object.values(people).some(p => p.name.toLowerCase() === name.toLowerCase());
+  if (dup) {
+    nameInput.classList.remove('shake');
+    void nameInput.offsetWidth;
+    nameInput.classList.add('shake');
+    const orig = nameInput.placeholder;
+    nameInput.placeholder = 'Already on the list!';
+    setTimeout(() => { nameInput.placeholder = orig; }, 2000);
+    return;
+  }
+
+  // Pick the next color not yet used (cycles)
+  const usedMax = Object.values(people).reduce((m, p) => Math.max(m, p.colorIndex ?? -1), -1);
+  const colorIndex = (usedMax + 1) % COLORS.length;
+
+  // push() creates a unique key; set() writes the data
+  peopleRef.push().set({
+    name,
+    count:      0,
+    colorIndex,
+    addedAt:    firebase.database.ServerValue.TIMESTAMP,
+  });
+
+  nameInput.value = '';
+  nameInput.focus();
+}
+
+// Increment count — uses a transaction so concurrent taps can't collide
+function increment(id, event) {
+  if (!db) return;
+  peopleRef.child(id).child('count').transaction(cur => (cur || 0) + 1);
+
+  // Optimistic animations (don't wait for the server round-trip)
+  animateBounce(id);
+  animateFloatPlus(event);
+  animateConfetti(event);
+
+  // Haptic feedback on supported mobile devices
+  if (navigator.vibrate) navigator.vibrate(45);
+}
+
+// Remove a person entirely
+function removePerson(id) {
+  if (!db) return;
+  peopleRef.child(id).remove();
+}
+
+// Zero out every person's count
+function resetAll() {
+  if (!db) return;
+  const updates = {};
+  Object.keys(people).forEach(id => { updates[`${id}/count`] = 0; });
+  peopleRef.update(updates);
+  closeModal();
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  ANIMATIONS
+// ════════════════════════════════════════════════════════════════════════
+
+function animateBounce(id) {
+  const card = document.getElementById('card-' + id);
+  if (!card) return;
+  card.classList.remove('bounce');
+  void card.offsetWidth; // force reflow so the animation restarts
+  card.classList.add('bounce');
+  card.addEventListener('animationend', () => card.classList.remove('bounce'), { once: true });
+}
+
+function animateFloatPlus(event) {
+  const el = document.createElement('div');
+  el.className = 'float-plus';
+  el.textContent = '+1';
+  el.style.left = (event.clientX - 18) + 'px';
+  el.style.top  = (event.clientY - 18) + 'px';
+  document.body.appendChild(el);
+  el.addEventListener('animationend', () => el.remove());
+}
+
+function animateConfetti(event) {
+  const cx = event.clientX;
+  const cy = event.clientY;
+  const N  = 16;
+
+  for (let i = 0; i < N; i++) {
+    const el    = document.createElement('div');
+    el.className = 'confetti-dot';
+
+    // Spread particles in all directions
+    const angle = (i / N) * 360;
+    const dist  = 55 + Math.random() * 65;
+    const rad   = angle * Math.PI / 180;
+    const tx    = Math.cos(rad) * dist;
+    const ty    = Math.sin(rad) * dist;
+    const rot   = ((Math.random() - 0.5) * 720).toFixed(0) + 'deg';
+    const size  = (6 + Math.random() * 8).toFixed(1) + 'px';
+    const color = CONFETTI[i % CONFETTI.length];
+    const shape = Math.random() > 0.45 ? '50%' : '2px';
+    const dur   = (0.55 + Math.random() * 0.45).toFixed(2) + 's';
+    const delay = (Math.random() * 0.08).toFixed(2) + 's';
+
+    el.style.cssText = `
+      left:${cx}px; top:${cy}px;
+      width:${size}; height:${size};
+      background:${color}; border-radius:${shape};
+      --tx:${tx}px; --ty:${ty}px; --rot:${rot};
+      --dur:${dur}; --delay:${delay};
+    `;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  MODAL
+// ════════════════════════════════════════════════════════════════════════
+function openModal()  { overlay.classList.add('show'); }
+function closeModal() { overlay.classList.remove('show'); }
+
+// ── Event wiring ────────────────────────────────────────────────────────
+addBtn.addEventListener('click', addPerson);
+nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') addPerson(); });
+resetBtn.addEventListener('click', openModal);
+cancelBtn.addEventListener('click', closeModal);
+confirmBtn.addEventListener('click', resetAll);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+// ── Utility ────────────────────────────────────────────────────────────
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ════════════════════════════════════════════════════════════════════════
+//  BOOT
+// ════════════════════════════════════════════════════════════════════════
+if (!isConfigured()) {
+  dot.classList.add('offline');
+  statusTxt.textContent = 'Firebase not configured';
+  lbList.innerHTML = '<div class="lb-empty">⚙️ Open this file and fill in the Firebase config!</div>';
+  empty.innerHTML  = '<span class="big">⚙️</span><p>Plug in your Firebase config to go live.<br>See the setup guide below.</p>';
+  empty.style.display = 'block';
+  grid.style.display  = 'none';
+} else {
+  initFirebase();
+}
+</script>
+
+
+<!--
+╔══════════════════════════════════════════════════════════════════════════╗
+║                     SETUP GUIDE — READ THIS FIRST                       ║
+╠══════════════════════════════════════════════════════════════════════════╣
+║                                                                          ║
+║  STEP 1 — Create a free Firebase project                                 ║
+║  ─────────────────────────────────────────                               ║
+║  1. Go to https://console.firebase.google.com                            ║
+║  2. Click "Add project" and give it a name (e.g. "ai-counter")          ║
+║  3. Disable Google Analytics when prompted (you don't need it)           ║
+║  4. Click "Create project" and wait for it to finish                     ║
+║                                                                          ║
+║  STEP 2 — Register a Web App & get your config                          ║
+║  ─────────────────────────────────────────────                           ║
+║  1. In the Firebase console, click the "</>" (Web) icon                  ║
+║  2. Give the app a nickname (e.g. "ai-counter-web") and click Register  ║
+║  3. Firebase shows you a firebaseConfig object                           ║
+║  4. Copy those values and paste them into the firebaseConfig block       ║
+║     at the top of the <script> section in this file                      ║
+║                                                                          ║
+║  STEP 3 — Enable Realtime Database                                       ║
+║  ──────────────────────────────────                                      ║
+║  1. In the Firebase console sidebar: Build → Realtime Database           ║
+║  2. Click "Create Database"                                              ║
+║  3. Choose any region (default is fine)                                  ║
+║  4. Select "Start in test mode" → click Enable                           ║
+║     (test mode allows read/write for 30 days — perfect for a weekend)   ║
+║                                                                          ║
+║  STEP 4 — Set the database rules to open read/write                      ║
+║  ──────────────────────────────────────────────────                      ║
+║  1. In Realtime Database, click the "Rules" tab                          ║
+║  2. Replace the entire contents with:                                    ║
+║                                                                          ║
+║       {                                                                  ║
+║         "rules": {                                                       ║
+║           ".read": true,                                                 ║
+║           ".write": true                                                 ║
+║         }                                                                ║
+║       }                                                                  ║
+║                                                                          ║
+║  3. Click "Publish"                                                      ║
+║                                                                          ║
+║  ⚠️  These rules are intentionally open — safe for a private trip,       ║
+║     but don't leave them like this long-term.                            ║
+║                                                                          ║
+║  STEP 5 — Share the app with your group                                  ║
+║  ──────────────────────────────────────                                  ║
+║                                                                          ║
+║  Option A: GitHub Pages (free, permanent URL)                            ║
+║    1. Create a free account at https://github.com                        ║
+║    2. Create a new public repo (e.g. "ai-counter")                       ║
+║    3. Upload this file renamed to "index.html"                           ║
+║    4. Go to Settings → Pages → Source: main branch → Save               ║
+║    5. Share the URL: https://YOURUSERNAME.github.io/ai-counter           ║
+║                                                                          ║
+║  Option B: Netlify Drop (easiest — no account needed)                    ║
+║    1. Go to https://app.netlify.com/drop                                 ║
+║    2. Drag this HTML file onto the page                                  ║
+║    3. Netlify gives you a public URL instantly — share it!               ║
+║                                                                          ║
+║  Option C: Same Wi-Fi network only                                       ║
+║    1. Open a terminal in the folder containing this file                 ║
+║    2. Run:  python3 -m http.server 8080                                  ║
+║    3. Find your local IP (System Preferences / ip addr)                  ║
+║    4. Share:  http://YOUR.LOCAL.IP:8080/ai-counter.html                  ║
+║    ⚠️  Everyone must be on the same Wi-Fi for this to work               ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+</body>
+</html>
