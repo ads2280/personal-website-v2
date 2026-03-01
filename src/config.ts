@@ -22,10 +22,6 @@ export const navBarLinks: NavBarLink[] = [
     url: "/",
   },
   {
-    title: "About",
-    url: "/about",
-  },
-  {
     title: "Work",
     url: "/work",
   },
@@ -36,6 +32,10 @@ export const navBarLinks: NavBarLink[] = [
   {
     title: "Blog",
     url: "/blog",
+  },
+  {
+    title: "Bookshelf",
+    url: "/books",
   },
 ];
 
@@ -74,12 +74,12 @@ export const homePageContent: HomePageContent = {
   socialLinks: socialLinks,
   links: [
     {
-      title: "My Projects",
+      title: "Projects",
       url: "/projects",
     },
     {
-      title: "About Me",
-      url: "/about",
+      title: "Books",
+      url: "/books",
     },
   ],
   currentlyReading: [

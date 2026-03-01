@@ -13,7 +13,5 @@ const { title, url, icon, external } = Astro.props;
   target={external ? "_blank" : "_self"}
 >
   <Icon name={icon} width={25} height={25} />
-  <div>
-    <p>{title}</p>
-  </div>
+  <p>{title}</p>
 </a>

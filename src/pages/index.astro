@@ -18,17 +18,16 @@ posts.splice(2)
 
 <Layout seo={homePageContent.seo}>
   <section class="mt-10 max-w-2xl mx-auto px-6">
-    <h1 class="font-bold text-3xl mb-1">{identity.name}</h1>
-    <p class="opacity-60 mb-10">{homePageContent.role}</p>
-    <div class="flex flex-col min-[520px]:flex-row gap-6 mb-8">
+    <h1 class="font-bold text-3xl mb-8">{identity.name}</h1>
+    <div class="flex items-center gap-6 mb-8">
       <Image
         src={identity.logo}
         alt={identity.name}
-        width={100}
-        height={100}
-        class="rounded-full bg-white"
+        width={120}
+        height={120}
+        class="rounded-full bg-white shrink-0"
       />
-      <div class="group flex flex-col justify-center gap-2 w-fit">
+      <div class="group flex flex-col gap-2">
         {
           homePageContent.socialLinks.map((link) => (
             <SocialLink
@@ -41,10 +40,12 @@ posts.splice(2)
         }
       </div>
     </div>
-    <p class="max-w-md mb-8">
-      {homePageContent.description}
-    </p>
-    <div class="flex items-center gap-4 group w-fit">
+    <div class="text-sm leading-relaxed mb-8 space-y-3">
+      <p>I'm a junior at Columbia studying Computer Science and Math, and a Neo Scholar (2025 cohort). At Columbia, I research agent failure at <a href="https://daplab.cs.columbia.edu/" target="_blank" class="underline underline-offset-2 hover:opacity-100">DAPLab</a>, lead the <a href="https://www.cualignment.org/" target="_blank" class="underline underline-offset-2 hover:opacity-100">AI Alignment Club</a>, and am part of <a href="https://undergrad.admissions.columbia.edu/studentgroup/columbia-organization-rising-entrepreneurs-core" target="_blank" class="underline underline-offset-2 hover:opacity-100">CORE</a>.</p>
+      <p>Previously I interned at LangChain building AI observability products, and at Pika on generative video models.</p>
+      <p>I enjoy pretty much anything outdoors, especially snowboarding and kitesurfing.</p>
+    </div>
+    <div class="flex items-center gap-4 group w-fit mb-8">
       {
         homePageContent.links.map((link) => (
           <Link text={link.title} href={link.url} external={link.external} />

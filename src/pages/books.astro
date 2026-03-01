@@ -1,0 +1,165 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { identity } from "../config";
+
+const BOOKS = [
+  // Asia
+  { country: "China", title: "Chinese Cinderella", author: "Adeline Yen Mah", favorite: false },
+  { country: "Pakistan", title: "Iqbal", author: "Francesco D'Adamo", favorite: false },
+  { country: "South Korea", title: "The Memory Police", author: "Yoko Ogawa", favorite: false },
+  { country: "Japan", title: "Before the Coffee Gets Cold", author: "Toshikazu Kawaguchi", favorite: false },
+  { country: "Turkey", title: "The Forty Rules of Love", author: "Elif Shafak", favorite: true },
+  { country: "Afghanistan", title: "The Kite Runner", author: "Khaled Hosseini", favorite: false },
+  // Europe
+  { country: "France", title: "The Little Prince", author: "Antoine de Saint-Exupéry", favorite: true },
+  { country: "Germany", title: "Perfume", author: "Patrick Süskind", favorite: true },
+  { country: "Greece", title: "Antigone", author: "Sophocles", favorite: false },
+  { country: "England", title: "My Name Is Why", author: "Lemn Sissay", favorite: false },
+  { country: "Italy", title: "The Lying Life of Adults", author: "Elena Ferrante", favorite: false },
+  { country: "Norway", title: "Grown Ups", author: "Marie Aubert", favorite: false },
+  { country: "Albania", title: "The Whistler", author: "José Eduardo Agualusa", favorite: false },
+  { country: "Switzerland", title: "Why the Child Is Cooking in the Polenta", author: "Aglaja Veteranyi", favorite: false },
+  // North America
+  { country: "USA", title: "The Secret History", author: "Donna Tartt", favorite: false },
+  // South America
+  { country: "Chile", title: "The House of the Spirits", author: "Isabel Allende", favorite: true },
+  { country: "Argentina", title: "One Hundred Years of Solitude", author: "Gabriel García Márquez", favorite: false },
+  { country: "Mexico", title: "La Frontera", author: "Gloria Anzaldúa", favorite: false },
+  { country: "Suriname", title: "The Cost of Sugar", author: "Cynthia McLeod", favorite: false },
+  // Africa
+  { country: "Burundi", title: "Small Country", author: "Gaël Faye", favorite: true },
+  { country: "Angola", title: "The Book of Chameleons", author: "José Eduardo Agualusa", favorite: false },
+  // Oceania
+  { country: "Australia", title: "The Book Thief", author: "Markus Zusak", favorite: false },
+];
+---
+
+<Layout
+  seo={{
+    title: "Books | " + identity.name,
+    description: "One book per country — reading the world.",
+    image: identity.logo,
+  }}
+>
+  <section class="mt-10 max-w-2xl mx-auto px-6">
+    <h1 class="font-bold text-3xl mb-1">Bookshelf</h1>
+    <p class="opacity-40 mb-10">I'm trying to read a book from every country in the world. Hover over a lit country to see what I read.</p>
+  </section>
+  <section id="map-container" class="books-map">
+  </section>
+  <div id="tooltip" class="books-tooltip"></div>
+  <script id="books-data" type="application/json" set:html={JSON.stringify(BOOKS)} />
+  <section class="mt-16 max-w-2xl mx-auto px-6 mb-20">
+    <ul class="space-y-3">
+      {BOOKS.map((book) => (
+        <li class="flex items-baseline gap-2 text-sm">
+          <span class="opacity-60 shrink-0">{book.country}</span>
+          <span class="opacity-30">–</span>
+          <span class="font-medium">{book.favorite ? "* " : ""}{book.title}</span>
+          {book.author && <span class="opacity-60">by {book.author}</span>}
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
+
+<style is:global>
+  .books-map {
+    width: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .books-map svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .books-tooltip {
+    display: none;
+    position: fixed;
+    font-size: 11px;
+    background: #fff;
+    color: #000;
+    padding: 8px 12px;
+    pointer-events: none;
+    z-index: 100;
+    line-height: 1.5;
+    border-radius: 0;
+  }
+</style>
+
+<script>
+  import * as d3 from "d3";
+
+  interface Book { country: string; title: string; author: string; favorite: boolean; }
+  const BOOKS: Book[] = JSON.parse(document.getElementById("books-data")!.textContent!);
+
+  const bookMap = new Map(BOOKS.map((b) => [b.country, b]));
+
+  const container = document.getElementById("map-container") as HTMLDivElement;
+  const tooltip = document.getElementById("tooltip") as HTMLDivElement;
+
+  let geoData: any = null;
+
+  async function render() {
+    const width = container.clientWidth;
+    const height = width * 0.5;
+
+    container.innerHTML = "";
+
+    const svg = d3
+      .select(container)
+      .append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+    if (!geoData) {
+      const response = await fetch("/world.geojson");
+      geoData = await response.json();
+    }
+
+    const projection = d3.geoNaturalEarth1().fitSize([width, height], geoData);
+    const path = d3.geoPath().projection(projection);
+
+    svg
+      .selectAll("path")
+      .data(geoData.features)
+      .join("path")
+      .attr("d", path as any)
+      .attr("fill", (d: any) =>
+        bookMap.has(d.properties.name) ? "#ffffff" : "#1a1a1a"
+      )
+      .attr("stroke", "none")
+      .style("filter", (d: any) =>
+        bookMap.has(d.properties.name)
+          ? "drop-shadow(0 0 6px rgba(255,255,255,0.4))"
+          : "none"
+      )
+      .style("cursor", (d: any) =>
+        bookMap.has(d.properties.name) ? "pointer" : "default"
+      )
+      .on("mouseenter", function (_event: MouseEvent, d: any) {
+        const book = bookMap.get(d.properties.name);
+        if (!book) return;
+        tooltip.style.display = "block";
+        tooltip.innerHTML = `<strong>${book.country}</strong><br/>${book.title}<br/><em>${book.author}</em>`;
+      })
+      .on("mousemove", function (event: MouseEvent) {
+        tooltip.style.left = event.clientX + 12 + "px";
+        tooltip.style.top = event.clientY + 12 + "px";
+      })
+      .on("mouseleave", function () {
+        tooltip.style.display = "none";
+      });
+  }
+
+  render();
+
+  let resizeTimer: ReturnType<typeof setTimeout>;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(render, 200);
+  });
+</script>
