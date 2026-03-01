@@ -84,7 +84,7 @@ export const homePageContent: HomePageContent = {
       url: "/projects",
     },
     {
-      title: "Books",
+      title: "Bookshelf",
       url: "/books",
     },
   ],
