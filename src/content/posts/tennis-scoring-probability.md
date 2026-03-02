@@ -1,6 +1,6 @@
 ---
 title: "How Markov Chains and Recursion Decide Every Tennis Game"
-pubDate: 2024-11-26
+pubDate: 2025-02-07
 description: "Tennis scoring is secretly an elegant probability algorithm"
 author: "Anika Somaia"
 image: { url: "/blog1.jpg", alt: "Tennis court" }
