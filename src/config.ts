@@ -161,25 +161,34 @@ export const projectsPageContent: ProjectPageContent = {
   subtitle: "Check out what I've been working on.",
   projects: [
     {
-      title: "Local Activity Recorder for Computer-Use Modeling",
-      description: "A lightweight recorder that logs everyday computer use (keyboard, screen, mouse events) as structured traces for computer-use agent development.",
-      image: "/project2.jpg",
-      year: "2024",
-      url: "https://dropbox.com/scl/fi/7w8dt2uq9rjto7h32iq0w/ActivityRecorderProject.zip?rlkey=e8rpa2z23limxn09kg51mj0a7&st=r2g4fu02&dl=0",
-      demoUrl: "https://www.dropbox.com/scl/fi/d7skn5sj7i1gfwa8yex27/ActivityRecorder-Demo.mp4?rlkey=4bezm8kkyc1sji8prb8ws5tnw&e=1&st=l4gjm56v&dl=0",
+      title: "Producer",
+      description: "A workspace to co-write lyrics and produce music alongside AI. Coaches lyrics in real time with client-side analysis, then an autonomous agent arranges and refines them into a finished track. Built at TreeHacks 2026.",
+      image: "/producer.png",
+      url: "https://github.com/ads2280/producer",
     },
-   {
+    {
+      title: "Noon",
+      description: "A voice-powered calendar scheduling assistant. Users interact with Google Calendar through natural language voice commands, processed by a LangGraph agent. Built with Swift, FastAPI, and Supabase. Built at Neo's hackathon.",
+      image: "/noon.png",
+      url: "https://github.com/ads2280/noon",
+    },
+    {
       title: "LLM Evaluation Uncertainty",
       description: "Conformal prediction for LLM-as-judge systems to quantify evaluation uncertainty. Includes LLM-as-judge evaluation using Sonnet 4, multiple conformal prediction strategies, and interactive visualization for uncertainty quantification.",
       image: "/project3.jpg",
-      year: "2024",
       url: "https://www.notion.so/Quantifying-LLM-Evaluation-Uncertainty-23e808527b1780649908c417cc1f6fd9?source=copy_link",
+    },
+    {
+      title: "Local Activity Recorder for Computer-Use Modeling",
+      description: "A lightweight recorder that logs everyday computer use (keyboard, screen, mouse events) as structured traces for computer-use agent development.",
+      image: "/project2.jpg",
+      url: "https://dropbox.com/scl/fi/7w8dt2uq9rjto7h32iq0w/ActivityRecorderProject.zip?rlkey=e8rpa2z23limxn09kg51mj0a7&st=r2g4fu02&dl=0",
+      demoUrl: "https://www.dropbox.com/scl/fi/d7skn5sj7i1gfwa8yex27/ActivityRecorder-Demo.mp4?rlkey=4bezm8kkyc1sji8prb8ws5tnw&e=1&st=l4gjm56v&dl=0",
     },
     {
       title: "Lightweight eBPF Runtime for SmallSat Operations",
       description: "Research on novel runtime systems for multi-tenant satellite operations using eBPF. Addresses the challenges of managing hundreds of commodity SmallSats under intermittent communication. Published at ACM HotNets '25.",
       image: "/project4.jpg",
-      year: "2025",
       url: "https://hotnets25.hotcrp.com/doc/hotnets25-paper142.pdf?cap=hcav142dbJcQUYfioxkLUtMxBWhEDhC",
     },
   ],

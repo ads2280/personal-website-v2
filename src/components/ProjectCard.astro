@@ -29,7 +29,7 @@ const htmlDescription = marked.parse(description)
       <a href={url} target="_blank" class="hover:underline">
         <h2 class="font-medium">{title}</h2>
       </a>
-      <span class="opacity-60">· {year}</span>
+      {year && <span class="opacity-60">· {year}</span>}
     </div>
     <div class="opacity-60">
       <Fragment set:html={htmlDescription} />
