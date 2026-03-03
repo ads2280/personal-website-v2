@@ -1,6 +1,6 @@
 ---
 title: "A different kind of side project"
-pubDate: 2025-01-10
+pubDate: 2025-01-20
 description: "I'm trying to read a book from every country in the world"
 author: "Anika Somaia"
 image: { url: "/blog3.jpg", alt: "Reading the world" }

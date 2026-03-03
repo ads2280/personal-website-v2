@@ -1,6 +1,6 @@
 ---
 title: "Engineering vs. Philosophy in AI Safety"
-pubDate: 2025-02-01
+pubDate: 2025-01-11
 description: "Two recent reads that frame the alignment problem from opposite ends"
 author: "Anika Somaia"
 image: { url: "/depressed_musician.webp", alt: "A depressed musician" }
