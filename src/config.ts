@@ -42,7 +42,7 @@ export const navBarLinks: NavBarLink[] = [
 export const socialLinks: SocialLink[] = [
   {
     title: "GitHub",
-    url: "https://github.com/ads2280",
+    url: "https://github.com/anikasomaia",
     icon: "mdi:github",
     external: true,
   },
@@ -164,13 +164,13 @@ export const projectsPageContent: ProjectPageContent = {
       title: "Producer",
       description: "A workspace to co-write lyrics and produce music alongside AI. Coaches lyrics in real time with client-side analysis, then an autonomous agent arranges and refines them into a finished track. Built at TreeHacks 2026.",
       image: "/producer.png",
-      url: "https://github.com/ads2280/producer",
+      url: "https://github.com/anikasomaia/producer",
     },
     {
       title: "Noon",
       description: "A voice-powered calendar scheduling assistant. Users interact with Google Calendar through natural language voice commands, processed by a LangGraph agent. Built with Swift, FastAPI, and Supabase. Built at Neo's hackathon.",
       image: "/noon.png",
-      url: "https://github.com/ads2280/noon",
+      url: "https://github.com/anikasomaia/noon",
     },
     {
       title: "LLM Evaluation Uncertainty",
